@@ -1,10 +1,8 @@
 <h1>Categories</h1>
 
-<p>This component demonstrates fetching data from the server.</p>
+<p>This component demonstrates fetching list of image categories from the reest api.</p>
 
-{{ json }}
-
-<!--<p *ngIf="!categories"><em>Loading...</em></p>
+<p *ngIf="!categories"><em>Loading...</em></p>
 
 <table class='table' *ngIf="categories">
     <thead>
@@ -14,9 +12,9 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let category of categories">
-            <td>{{ category.Id }}</td>
-            <td>{{ category.Category }}</td>
+        <tr *ngFor="let cat of categories.categories.category">
+            <td>{{ cat.id }}</td>
+            <td>{{ cat.name }}</td>
         </tr>
     </tbody>
-</table>-->
+</table>

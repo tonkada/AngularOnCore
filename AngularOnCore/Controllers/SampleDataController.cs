@@ -1,44 +1,48 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace AngularOnCore.Controllers
 {
     [Route("api/[controller]")]
     public class SampleDataController : Controller
     {
-        private static string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
         [HttpGet("[action]")]
-        public IEnumerable<WeatherForecast> WeatherForecasts()
+        public object GetCategories()
         {
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                DateFormatted = DateTime.Now.AddDays(index).ToString("d"),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
-            });
-        }
+            const string url = "http://thecatapi.com/api/categories/list";
+            XmlDocument doc = new XmlDocument();
 
-        public class WeatherForecast
-        {
-            public string DateFormatted { get; set; }
-            public int TemperatureC { get; set; }
-            public string Summary { get; set; }
-
-            public int TemperatureF
+            WebRequest request = WebRequest.Create(url);
+            try
             {
-                get
+                WebResponse response = request.GetResponse();
+                using (var sr = new System.IO.StreamReader(response.GetResponseStream()))
                 {
-                    return 32 + (int)(TemperatureC / 0.5556);
+                    try
+                    {
+                        doc.LoadXml(sr.ReadToEnd());
+                    }
+                    catch (Exception)
+                    {
+                        // handle if necessary
+                    }
                 }
             }
+            catch (WebException)
+            {
+                // handle if necessary    
+            }
+
+            return JsonConvert.SerializeXmlNode(doc.SelectSingleNode("/response/data/categories"));
         }
+
     }
 }

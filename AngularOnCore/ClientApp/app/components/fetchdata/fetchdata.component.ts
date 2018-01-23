@@ -6,18 +6,29 @@ import { Http } from '@angular/http';
     templateUrl: './fetchdata.component.html'
 })
 export class FetchDataComponent {
-    public categories: Category[];
-    public json: string;
+    public categories: Categories;
 
-    constructor(http: Http) {
-        http.get('http://thecatapi.com/' + 'api/categories/list').subscribe(result => {
+    constructor(http: Http, @Inject('BASE_URL') baseUrl: string) {
+
+        http.get(baseUrl + 'api/SampleData/GetCategories').subscribe(result => {
             //this.categories = result.json().response.data.categories as Category[];
-            this.json = JSON.stringify(result);
+            this.categories = result.json() as Categories;
+            console.log(this.categories);
+
         }, error => console.error(error));
     }
+
+}
+
+interface Categories {
+    "categories": Category;
 }
 
 interface Category {
-    id: number;
-    name: string;
+    "category": Item[];
+}
+
+interface Item {
+    "id": string;
+    "name": string;
 }
