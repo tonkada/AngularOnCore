@@ -21,14 +21,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="ClientApp\app\components\servers\servers.component.ts" />
-    <None Remove="ClientApp\app\components\server\server.component.ts" />
+    <None Remove="ClientApp\app\components\image\image.component.ts" />
     <None Remove="Properties\PublishProfiles\FolderProfile.pubxml" />
   </ItemGroup>
 
   <ItemGroup>
-    <TypeScriptCompile Include="ClientApp\app\components\servers\servers.component.ts" />
-    <TypeScriptCompile Include="ClientApp\app\components\server\server.component.ts" />
+    <TypeScriptCompile Include="ClientApp\app\components\image\image.component.ts" />
   </ItemGroup>
 
   <ItemGroup>

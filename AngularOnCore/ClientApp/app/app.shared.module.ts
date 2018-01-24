@@ -7,14 +7,16 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './components/app/app.component';
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { HomeComponent } from './components/home/home.component';
-import { FetchDataComponent } from './components/fetchdata/fetchdata.component';
+import { CategoriesListComponent } from './components/categorieslist/categorieslist.component';
+import { ImageComponent } from './components/image/image.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         NavMenuComponent,
-        FetchDataComponent,
-        HomeComponent
+        CategoriesListComponent,
+        HomeComponent,
+        ImageComponent
     ],
     imports: [
         CommonModule,
@@ -23,7 +25,7 @@ import { FetchDataComponent } from './components/fetchdata/fetchdata.component';
         RouterModule.forRoot([
             { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'home', component: HomeComponent },
-            { path: 'fetch-data', component: FetchDataComponent },
+            { path: 'categories-list', component: CategoriesListComponent },
             { path: '**', redirectTo: 'home' }
         ])
     ]

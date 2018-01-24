@@ -1,24 +1,31 @@
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
 using System.Xml;
-using System.Xml.Linq;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace AngularOnCore.Controllers
 {
     [Route("api/[controller]")]
     public class SampleDataController : Controller
     {
+        /// <summary>
+        /// The API URL
+        /// </summary>
+        public const string API_URL = "http://thecatapi.com/api/";
+
+        /// <summary>
+        /// Calling rest api and converting the result from xml to json.
+        /// </summary>
+        /// <returns>
+        /// Json list of categories.
+        /// </returns>
         [HttpGet("[action]")]
         public object GetCategories()
         {
-            const string url = "http://thecatapi.com/api/categories/list";
-            XmlDocument doc = new XmlDocument();
+            string url = API_URL + "categories/list";
+            var doc = new XmlDocument();
+            var result = new List<object>();
 
             WebRequest request = WebRequest.Create(url);
             try
@@ -29,6 +36,15 @@ namespace AngularOnCore.Controllers
                     try
                     {
                         doc.LoadXml(sr.ReadToEnd());
+
+                        XmlNodeList listOfCategories = doc.SelectNodes("/response/data/categories/category");
+                        foreach (XmlNode singleCategory in listOfCategories)
+                        {
+                            string id = singleCategory.SelectSingleNode("id").InnerText;
+                            string name = singleCategory.SelectSingleNode("name").InnerText;
+                            result.Add(new { id, name });
+                        }
+
                     }
                     catch (Exception)
                     {
@@ -38,11 +54,13 @@ namespace AngularOnCore.Controllers
             }
             catch (WebException)
             {
-                // handle if necessary    
+                // handle if necessary
             }
 
-            return JsonConvert.SerializeXmlNode(doc.SelectSingleNode("/response/data/categories"));
+            return result;
         }
+
+
 
     }
 }

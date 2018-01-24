@@ -1,0 +1,12 @@
+<h1>Categories</h1>
+
+<p>This component demonstrates fetching list of image categories from the reest api.</p>
+
+<p *ngIf="!categories"><em>Loading...</em></p>
+
+<ul class='table' *ngIf="categories">
+    <li *ngFor="let cat of categories">
+        <a ng-click="loadImage()">{{ cat.name }}</a>
+    </li>
+</ul>
+
